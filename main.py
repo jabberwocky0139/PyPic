@@ -99,6 +99,34 @@ class CountDownWidget(QWidget):
     
     def mousePressEvent(self, event):
         pprint(dir(self._pixmap))
+
+        
+
+class MenuWindow(QMainWindow):
+    def __init__(self):
+        QWidget.__init__(self)
+
+        toolMenu = QMenuBar()
+        toolMenu.setNativeMenuBar(True) # <--
+        self.setMenuBar(toolMenu)
+        self.setup_ui()
+
+    def setup_ui(self):
+
+        # アイコン付加、ラベルはExitのアクションオブジェクト作成
+        exitAction = QAction(QtGui.QIcon('imoyokan.jpg'), '&Exit', self)
+
+        # Exitボタンを押すと表示終了
+        exitAction.triggered.connect(qApp.quit)
+
+        self.statusBar()
+
+        # メニューバー作成
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        # exitActionを紐づける
+        fileMenu.addAction(exitAction)
+        self.show()
         
 
 
@@ -110,6 +138,8 @@ def main():
     # 子Widget 
     countdown_widget = CountDownWidget(parent=panel)
     button_box_widget = ButtonBoxWidget(parent=panel)
+    menu_window = MenuWindow()
+    menu_window.setFixedSize(400, 30)
     countdown_widget.setSizePolicy(QSizePolicy.Expanding, 
                                    QSizePolicy.Expanding)
 
